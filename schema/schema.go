@@ -52,7 +52,7 @@ type Attachment struct {
 type Message struct {
 	Id int `json:"id"`
 	//go is typed language while javascript is not.
-	//we make it interface{} in case we fall into pits like this:
+	//we make it interface{} in case we fall into pitfalls like this:
 	//{"msgid": "3"}
 	//It may hurt like hell.
 	ThreadId    interface{}  `json:"msgid"`
