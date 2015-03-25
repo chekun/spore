@@ -1,0 +1,11 @@
+development:
+    dialect: mysql
+    datasource: root:root@/spored?parseTime=true
+    dir: migrations
+    table: migrations
+
+production:
+    dialect: mysql
+    datasource: root:root@/spored?parseTime=true
+    dir: migrations
+    table: migrations
