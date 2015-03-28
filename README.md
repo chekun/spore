@@ -15,6 +15,6 @@ Goals:
 - [ ] Another taste of UI
     * [ ] React JS
 
-> Porject won't include features that might jeopardize personal infomation, such as Login or Register right now, unless Baoz support Official API with OAuth.
+> Project won't include features that might jeopardize personal infomation, such as Login or Register right now, unless Baoz support Official API with OAuth.
 
 Stay tuned.... and, stars are welcomed! :smiley:
