@@ -4,11 +4,17 @@ A ```toy``` based on [baoz.cn](http://baoz.cn)
 
 Goals:
 
-- [ ] Crawler
+- [ ] Storage
+    * [x] Mysql Migration
+- [ ] Commands
+    * [x] Crawler
+    * [x] Server
+- [ ] Search
+    * [x] Coreseek integrated
 - [ ] Multi-dimensional Ranking
 - [ ] Another taste of UI
-- [ ] Search
+    * [ ] React JS
 
 > Porject won't include features that might jeopardize personal infomation, such as Login or Register right now, unless Baoz support Official API with OAuth.
 
-Stay tuned.... and, stars are welcomed! :smiley: 
+Stay tuned.... and, stars are welcomed! :smiley:
