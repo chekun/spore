@@ -1,2 +1,5 @@
 dbconfig.yml
 spored/spored
+sphinx
+sphinx.conf
+*.log
