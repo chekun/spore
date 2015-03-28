@@ -8,7 +8,7 @@ Goals:
     * [x] Mysql Migration
 - [ ] Commands
     * [x] Crawler
-    * [x] Server
+    * [ ] Server
 - [ ] Search
     * [x] Coreseek integrated
 - [ ] Multi-dimensional Ranking
