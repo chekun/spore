@@ -13,7 +13,7 @@ func main() {
 	ui = &cli.BasicUi{Writer: os.Stdout}
 
 	app := &cli.CLI{
-		HelpFunc: cli.BasicHelpFunc("pored"),
+		HelpFunc: cli.BasicHelpFunc("spored"),
 		Args:     os.Args[1:],
 		Version:  "1.0.0",
 		Commands: map[string]cli.CommandFactory{
