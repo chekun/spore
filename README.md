@@ -17,4 +17,17 @@ Goals:
 
 > Project won't include features that might jeopardize personal infomation, such as Login or Register right now, unless Baoz support Official API with OAuth.
 
-Stay tuned.... and, stars are welcomed! :smiley:
+:smiley:
+
+## How to play
+
+- Golang
+- clone this repo
+- deps
+- npm install
+- gulp
+- sql-migrate
+- Coreseek(sphinx)
+- redis
+- spored crawl
+- spored serve

@@ -7,7 +7,7 @@ import (
 )
 
 func TestParseGroup(t *testing.T) {
-	groupJsonString, _ := ioutil.ReadFile("../sample/group.json")
+	groupJsonString, _ := ioutil.ReadFile("../../resources/samples/group.json")
 	var group GroupBase
 	json.Unmarshal(groupJsonString, &group)
 	t.Log("Group ID is: ", group.Id)
@@ -15,7 +15,7 @@ func TestParseGroup(t *testing.T) {
 }
 
 func TestParseThreadMessage(t *testing.T) {
-	threadJsonString, _ := ioutil.ReadFile("../sample/thread.json")
+	threadJsonString, _ := ioutil.ReadFile("../../resources/samples/thread.json")
 	var thread MessageBase
 	json.Unmarshal(threadJsonString, &thread)
 	t.Log("Thread Id is: ", thread.Id)
@@ -24,7 +24,7 @@ func TestParseThreadMessage(t *testing.T) {
 }
 
 func TestParsePostMessage(t *testing.T) {
-	postJsonString, _ := ioutil.ReadFile("../sample/post.json")
+	postJsonString, _ := ioutil.ReadFile("../../resources/samples/post.json")
 	var post MessageBase
 	json.Unmarshal(postJsonString, &post)
 	t.Log("Post Id is: ", post.Id)

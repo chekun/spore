@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/mitchellh/cli"
 	"log"
 	"os"
+
+	"github.com/chekun/spore/spored/command"
+	"github.com/mitchellh/cli"
 )
 
-var ui cli.Ui
+var ui *cli.BasicUi
 
 func main() {
 
@@ -18,7 +20,10 @@ func main() {
 		Version:  "1.0.0",
 		Commands: map[string]cli.CommandFactory{
 			"crawl": func() (cli.Command, error) {
-				return &CrawlCommand{}, nil
+				return &command.CrawlCommand{ui}, nil
+			},
+			"serve": func() (cli.Command, error) {
+				return &command.ServeCommand{ui}, nil
 			},
 		},
 	}

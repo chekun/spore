@@ -1,0 +1,21 @@
+development:
+    dialect: mysql
+    datasource: root:root@/spored?parseTime=true
+    dir: resources/migrations
+    table: migrations
+    http: :10999
+    sphinx_server: 127.0.0.1
+    sphinx_port: 9312
+    redis_server: 127.0.0.1
+    redis_port: 6379
+
+production:
+    dialect: mysql
+    datasource: root:root@/spored?parseTime=true
+    dir: resources/migrations
+    table: migrations
+    http: :10999
+    sphinx_server: 127.0.0.1
+    sphinx_port: 9312
+    redis_server: 127.0.0.1
+    redis_port: 6379

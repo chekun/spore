@@ -1,7 +1,6 @@
-package main
+package command
 
 import (
-	l4g "code.google.com/p/log4go"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -9,15 +8,21 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"spore"
-	"spore/schema"
 	"strings"
 	"time"
+
+	l4g "code.google.com/p/log4go"
+	"github.com/chekun/spore/spored/env"
+	"github.com/chekun/spore/spored/schema"
+	"github.com/mitchellh/cli"
 )
 
+//CrawlCommand Command Object
 type CrawlCommand struct {
+	UI *cli.BasicUi
 }
 
+//Help Crawl Command Help
 func (c *CrawlCommand) Help() string {
 	helpText := `
 Usage: spored crawl [options] ...
@@ -33,6 +38,7 @@ Options:
 	return strings.TrimSpace(helpText)
 }
 
+//Synopsis Crawl Command Synopsis
 func (c *CrawlCommand) Synopsis() string {
 	return "Crawl Baoz.cn for data"
 }
@@ -43,33 +49,34 @@ var quitChan chan int
 var resumeChan chan int
 var isRunning bool
 var idChan chan int
-var sharedHttpClient *http.Client
+var sharedHTTPClient *http.Client
 var continuousFailedIds []int
 
+//Run Crawl Command Run
 func (c *CrawlCommand) Run(args []string) int {
 
 	cmdFlags := flag.NewFlagSet("crawl", flag.ContinueOnError)
-	cmdFlags.Usage = func() { ui.Output(c.Help()) }
-	spore.ConfigFlags(cmdFlags)
+	cmdFlags.Usage = func() { c.UI.Output(c.Help()) }
+	env.ConfigFlags(cmdFlags)
 
 	if err := cmdFlags.Parse(args); err != nil {
-		fmt.Println("Could not parse config: %s", err)
+		fmt.Println("Could not parse config: ", err)
 		return 1
 	}
 
-	env, err := spore.GetEnvironment()
+	environment, err := env.GetEnvironment()
 	if err != nil {
 		fmt.Println("Could not parse config ", err)
 		return 1
 	}
 
-	db, err := spore.GetConnection(env)
+	db, err := env.GetConnection(environment)
 	if err != nil {
-		l4g.Error("Could not Get DB Connection: %s", err)
+		l4g.Error("Could not Get DB Connection: ", err)
 		return 1
 	}
 
-	sharedHttpClient = &http.Client{}
+	sharedHTTPClient = &http.Client{}
 	messageChan = make(chan *schema.MessageBase)
 	groupChan = make(chan *schema.GroupBase)
 	quitChan = make(chan int)
@@ -91,10 +98,10 @@ func (c *CrawlCommand) Run(args []string) int {
 			go crawler(id + 1)
 		case m := <-messageChan:
 			m.Message.Save(db)
-			go next(m.Id)
+			go next(m.ID)
 		case g := <-groupChan:
 			g.Group.Save(db)
-			go next(g.Id)
+			go next(g.ID)
 		case <-quitChan:
 			time.Sleep(1 * time.Second)
 			l4g.Info("[crawl.scheduler] Goodbye!")
@@ -105,7 +112,7 @@ func (c *CrawlCommand) Run(args []string) int {
 			l4g.Info("[crawl.scheduler] Resume Signal %d", status)
 			if status == 1 && !isRunning {
 				//check db for max(id).
-				var maxId int64
+				var maxID int64
 				statment, err := db.Prepare(`
 					SELECT MAX(id) FROM
 						(SELECT MAX(id) AS id FROM users u
@@ -118,14 +125,14 @@ func (c *CrawlCommand) Run(args []string) int {
 				if err != nil {
 					l4g.Error("[mysql.getMax] %s", err)
 				}
-				err = statment.QueryRow().Scan(&maxId)
+				err = statment.QueryRow().Scan(&maxID)
 				if err != nil {
 					l4g.Error("[mysql.getMax.scan] %s", err)
 				}
 				statment.Close()
-				l4g.Info("[mysql.getMax] Get MaxId %d", maxId)
-				l4g.Info("[crawl.scheduler] Resumed from %d", maxId)
-				go next(int(maxId))
+				l4g.Info("[mysql.getMax] Get MaxId %d", maxID)
+				l4g.Info("[crawl.scheduler] Resumed from %d", maxID)
+				go next(int(maxID))
 			} else {
 				l4g.Info("[crawl.scheduler] Paused")
 				isRunning = false
@@ -176,7 +183,7 @@ func crawler(id int) {
 	if err != nil {
 		l4g.Error("[crawler.request] %s", err)
 	}
-	response, err := sharedHttpClient.Do(request)
+	response, err := sharedHTTPClient.Do(request)
 	if err != nil {
 		l4g.Error("[crawler.request] %d %s", id, err)
 		go next(id)

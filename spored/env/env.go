@@ -1,15 +1,16 @@
-package spore
+package env
 
 import (
-	l4g "code.google.com/p/log4go"
 	"database/sql"
 	"errors"
 	"flag"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"gopkg.in/yaml.v1"
 	"io/ioutil"
 	"runtime"
+
+	l4g "code.google.com/p/log4go"
+	_ "github.com/go-sql-driver/mysql"
+	"gopkg.in/yaml.v1"
 )
 
 var ConfigFile string
@@ -27,10 +28,15 @@ func ConfigFlags(f *flag.FlagSet) {
 }
 
 type Environment struct {
-	Dialect    string `yaml:"dialect"`
-	DataSource string `yaml:"datasource"`
-	Dir        string `yaml:"dir"`
-	TableName  string `yaml:"table"`
+	Dialect      string `yaml:"dialect"`
+	DataSource   string `yaml:"datasource"`
+	Dir          string `yaml:"dir"`
+	TableName    string `yaml:"table"`
+	HTTP         string `yaml:"http"`
+	SphinxServer string `yaml:"sphinx_server"`
+	SphinxPort   int    `yaml:"sphinx_port"`
+	RedisServer  string `yaml:"redis_server"`
+	RedisPort    int    `yaml:"redis_port"`
 }
 
 func ReadConfig() (map[string]*Environment, error) {

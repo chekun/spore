@@ -1,0 +1,15 @@
+body {
+  padding-top: 20px;
+}
+.search {
+  padding: 10px 15px;
+  text-align: center;
+}
+.search .list-group {
+    text-align: left;
+}
+.search .hidden {
+    display: none
+}
+
+.logo {background: url('../assets/logo.png'); width: 72px; height: 53px; border: 0px;}
