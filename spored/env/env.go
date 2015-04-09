@@ -13,6 +13,10 @@ import (
 	"gopkg.in/yaml.v1"
 )
 
+const (
+	VERSION = "1.0.0"
+)
+
 var ConfigFile string
 var ConfigEnvironment string
 
