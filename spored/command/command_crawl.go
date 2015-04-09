@@ -31,7 +31,7 @@ Usage: spored crawl [options] ...
 
 Options:
 
-  -config=dbconfig.yml   Configuration file to use.
+  -config=config.yml  Configuration file to use.
   -env=development    Environment.
 `
 
