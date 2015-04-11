@@ -12,10 +12,10 @@ var RankApp = require('./react/rank/RankApp');
 
 var routes = (
   <Route name="spored" handler={SporedApp} path="/">
-    <DefaultRoute handler={Landing} path="/" />
+    <DefaultRoute handler={Landing} />
     <Route name="search" handler={SearchApp} path="/search" />
     <Route name="rank" handler={RankApp} path="/rank" />
-    <NotFoundRoute handler={SearchApp} path="/" />
+    <NotFoundRoute handler={SearchApp} />
   </Route>
 );
 

@@ -1,5 +1,6 @@
 import React from 'react';
 var Router = require('react-router');
+var GithubRibbon = require('./Ribbon');
 
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
@@ -19,14 +20,14 @@ class SporedApp extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="row">
                 <nav className="navbar navbar-default navbar-spored navbar-fixed-top">
                   <div className="container">
                     <div className="navbar-header">
                       <Link className="navbar-brand" to="/">Project Spore</Link>
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
-                      <ul className="nav navbar-nav navbar-right">
+                      <ul className="nav navbar-nav">
                         <li className={this.state.location === '/' ? "active" : ''} id="route-index"><Link to="/">首页</Link></li>
                         <li className={this.state.location === '/search' ? "active" : ''} id="route-search"><Link to="/search">搜索</Link></li>
                         <li className={this.state.location === '/rank' ? "active" : ''} id="route-rank"><Link to="/rank">排行榜</Link></li>
@@ -39,7 +40,7 @@ class SporedApp extends React.Component {
                     <RouteHandler {...this.props} />
                 </div>
 
-                <footer className="footer"></footer>
+                <GithubRibbon repo="https://github.com/chekun/spore" />
             </div>
         );
     }

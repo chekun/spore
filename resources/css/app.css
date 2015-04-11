@@ -24,3 +24,24 @@
 }
 
 .logo {background: url('../assets/logo.png'); width: 72px; height: 53px; border: 0px;}
+
+.ribbon {
+    position:absolute;
+    top:0;
+    right:0;
+    border:0;
+    z-index:10000
+}
+
+.landing-container {
+    text-align: center;
+    padding-top: 100px;
+}
+
+.landing-container > div {
+    padding-top: 100px;
+}
+
+.landing-container > div > a {
+    margin: 0px 15px;
+}

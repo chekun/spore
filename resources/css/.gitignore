@@ -1,3 +1,5 @@
 *.css
 !app.css
 !nprogress.css
+!magic.css
+!.gitignore
