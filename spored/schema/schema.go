@@ -237,6 +237,9 @@ func (message *Message) Save(db *sql.DB) {
 		//this is a post message
 		stmt, _ := db.Prepare("REPLACE INTO posts(id, thread_id, content, user_id, group_id, created_at) VALUES(?, ?, ?, ?, ?, ?)")
 		defer stmt.Close()
+		//Warning!
+		//Some posts have no Group Object, eg. 10255 and 11903
+		//I will fix the data before stats
 		stmt.Exec(message.ID, message.ThreadID, message.Content, message.Author.ID, message.Group.ID, message.CreatedAt)
 	} else {
 		stmt, _ := db.Prepare("REPLACE INTO threads(id, title, content, user_id, group_id, created_at) VALUES(?, ?, ?, ?, ?, ?)")
