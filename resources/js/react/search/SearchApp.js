@@ -2,15 +2,15 @@ import React from 'react';
 
 var SearchTabControl = require('./SearchTabControl');
 var SearchResultList = require('./SearchResultList');
-var Loading = require('./Loading');
-var Alert = require('./Alert');
+var Loading = require('../Loading');
+var Alert = require('../Alert');
 var SearchLoadMore = require('./SearchLoadMore');
 var $ = require('jquery');
 
 class SearchApp extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             items: [],
             badges: {
@@ -145,7 +145,7 @@ class SearchApp extends React.Component {
     render() {
         return (
             <div className="search">
-              <h1><img className="logo img-circle" /> 搜索</h1>
+              <h1>搜索</h1>
               <p className="lead">
                   <form onSubmit={this.handleSubmit.bind(this)}>
                       <input type="text" className="form-control" placeholder="输入要查询的关键字" value={this.state.keyword} onChange={this.changeHandler.bind(this)} />

@@ -1,5 +1,5 @@
-body {
-  padding-top: 20px;
+.container-spored {
+  padding-top: 50px;
 }
 .search {
   padding: 10px 15px;
@@ -10,6 +10,17 @@ body {
 }
 .search .hidden {
     display: none
+}
+
+.navbar-spored {
+  background: url('../assets/logo.png');
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  height: 57px;
+}
+
+.navbar-spored .navbar-nav > li > a {
+    padding-top: 21px;
 }
 
 .logo {background: url('../assets/logo.png'); width: 72px; height: 53px; border: 0px;}

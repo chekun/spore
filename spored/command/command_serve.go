@@ -73,7 +73,6 @@ func (c *ServeCommand) Run(args []string) int {
 	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", fs))
 	http.HandleFunc("/", HomeEntry)
-	http.HandleFunc("/search", SearchEntry)
 	http.HandleFunc("/search/do", DoSearchHandler)
 	err = http.ListenAndServe(environment.HTTP, nil)
 	if err != nil {
@@ -83,18 +82,10 @@ func (c *ServeCommand) Run(args []string) int {
 	return 0
 }
 
-// HomeEntry Home Handler
+// HomeEntry Handler
 func HomeEntry(w http.ResponseWriter, r *http.Request) {
-	t := template.New("home.html")
-	t, _ = t.ParseFiles("../resources/views/home.html")
-	t.Execute(w, r.Cookies())
-	//fmt.Fprintf(w, "OK")
-}
-
-// SearchEntry Search Handler
-func SearchEntry(w http.ResponseWriter, r *http.Request) {
-	t := template.New("search.html")
-	t, _ = t.ParseFiles("../resources/views/search.html")
+	t := template.New("react.html")
+	t, _ = t.ParseFiles("../resources/views/react.html")
 	t.Execute(w, nil)
 }
 
@@ -138,7 +129,7 @@ func DoSearchHandler(w http.ResponseWriter, r *http.Request) {
 		sphinx.SetGroupBy("id_type", gosphinx.SPH_GROUPBY_ATTR, "@group asc")
 		res, err := sphinx.Query(searchWord, "spored", "Group Query for "+searchWord)
 		if err != nil {
-			result.Error = "Sphinx Error" + err.Error()
+			result.Error = "Sphinx Error " + err.Error()
 			resultJSON, _ := json.Marshal(result)
 			fmt.Fprintf(w, string(resultJSON))
 			return
