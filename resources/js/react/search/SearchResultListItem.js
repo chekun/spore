@@ -1,4 +1,5 @@
 import React from 'react';
+var Avatar = require('../Avatar');
 
 //<SearchResultListItem item=[] />
 
@@ -12,15 +13,11 @@ class SearchResultListItem extends React.Component {
         } else {
             item.type = 1;
         }
-        var avatarPrefix = 'http://#region.as.baoz.cn/f/#file';
-        if (item.icon) {
-            item.icon.url = avatarPrefix.replace("#region", item.icon.crop.substr(0, 1)).replace("#file", item.icon.crop)+'.t30x30.png';
-        }
         switch (item.type) {
             case 1:
                 return (
                     <a href="javascript:void(0);" className="list-group-item">
-                        <img width="30" height="30" src={item.icon.url} alt={item.name} className="img-circle" />
+                        <Avatar width="30" height="30" icon={item.icon} alt={item.name} />
                         <span>用户</span>: {item.name}
                     </a>
                 );
@@ -29,7 +26,7 @@ class SearchResultListItem extends React.Component {
                 var link = "http://baoz.cn/" + item.id;
                 return (
                     <a href={link} target="_blank" className="list-group-item">
-                        <img width="30" height="30" src={item.icon.url} alt={item.name} className="img-circle" />
+                        <Avatar width="30" height="30" icon={item.icon} alt={item.name} />
                         <span>群组</span>: {item.name}
                     </a>
                 );
