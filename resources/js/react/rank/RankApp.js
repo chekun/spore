@@ -1,14 +1,23 @@
 import React from 'react';
 var RankGroup = require('./RankGroup');
+var $ = require('jquery');
 
 class RankApp extends React.Component {
 
   constructor(props) {
       super(props)
       this.state = {
+          date: "",
           user_ranks: [],
           group_ranks: []
       }
+  }
+
+  componentDidMount() {
+      var $this = this;
+      $.getJSON('/rank/do', function(response) {
+          $this.setState(response);
+      });
   }
 
   render() {

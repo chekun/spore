@@ -11,6 +11,7 @@ var SporedApp = require('./react/SporedApp');
 var SearchApp = require('./react/search/SearchApp');
 var Landing = require('./react/Landing');
 var RankApp = require('./react/rank/RankApp');
+var MissingPage = require('./react/MissingPage');
 
 var routes = React.createElement(
   Route,
@@ -18,7 +19,7 @@ var routes = React.createElement(
   React.createElement(DefaultRoute, { handler: Landing }),
   React.createElement(Route, { name: 'search', handler: SearchApp, path: '/search' }),
   React.createElement(Route, { name: 'rank', handler: RankApp, path: '/rank' }),
-  React.createElement(NotFoundRoute, { handler: SearchApp })
+  React.createElement(NotFoundRoute, { handler: MissingPage })
 );
 
 Router.run(routes, Router.HistoryLocation, function (Handler, state) {
@@ -26,7 +27,7 @@ Router.run(routes, Router.HistoryLocation, function (Handler, state) {
   React.render(React.createElement(Handler, { params: params }), document.body);
 });
 
-},{"./react/Landing":200,"./react/SporedApp":203,"./react/rank/RankApp":205,"./react/search/SearchApp":207,"react":198,"react-router":29}],2:[function(require,module,exports){
+},{"./react/Landing":201,"./react/MissingPage":203,"./react/SporedApp":205,"./react/rank/RankApp":207,"./react/search/SearchApp":209,"react":198,"react-router":29}],2:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -32477,6 +32478,58 @@ var _React = require('react');
 
 var _React2 = _interopRequireWildcard(_React);
 
+//<Avatar icon=[] />
+
+var Avatar = (function (_React$Component) {
+    function Avatar(props) {
+        _classCallCheck(this, Avatar);
+
+        _get(Object.getPrototypeOf(Avatar.prototype), 'constructor', this).call(this, props);
+    }
+
+    _inherits(Avatar, _React$Component);
+
+    _createClass(Avatar, [{
+        key: 'render',
+        value: function render() {
+
+            var avatarPrefix = 'http://#region.as.baoz.cn/f/#file';
+            var url = 'http://d.as.baoz.cn/f/default.t30x30.png';
+            if (this.props.icon) {
+                url = avatarPrefix.replace('#region', this.props.icon.crop.substr(0, 1)).replace('#file', this.props.icon.crop) + '.t30x30.png';
+            }
+
+            return _React2['default'].createElement('img', { width: '30', height: '30', src: url, alt: this.props.alt, className: 'img-circle' });
+        }
+    }]);
+
+    return Avatar;
+})(_React2['default'].Component);
+
+exports['default'] = Avatar;
+module.exports = exports['default'];
+
+},{"react":198}],201:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _React = require('react');
+
+var _React2 = _interopRequireWildcard(_React);
+
 var Router = require('react-router');
 var Link = Router.Link;
 
@@ -32525,7 +32578,7 @@ var Landing = (function (_React$Component) {
 exports['default'] = Landing;
 module.exports = exports['default'];
 
-},{"react":198,"react-router":29}],201:[function(require,module,exports){
+},{"react":198,"react-router":29}],202:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -32581,7 +32634,75 @@ var Loading = (function (_React$Component) {
 exports['default'] = Loading;
 module.exports = exports['default'];
 
-},{"jquery":2,"nprogress":4,"react":198}],202:[function(require,module,exports){
+},{"jquery":2,"nprogress":4,"react":198}],203:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _React = require('react');
+
+var _React2 = _interopRequireWildcard(_React);
+
+var Router = require('react-router');
+var Link = Router.Link;
+
+var MissingPage = (function (_React$Component) {
+    function MissingPage(props) {
+        _classCallCheck(this, MissingPage);
+
+        _get(Object.getPrototypeOf(MissingPage.prototype), 'constructor', this).call(this, props);
+    }
+
+    _inherits(MissingPage, _React$Component);
+
+    _createClass(MissingPage, [{
+        key: 'render',
+        value: function render() {
+            return _React2['default'].createElement(
+                'div',
+                { className: 'container landing-container' },
+                _React2['default'].createElement(
+                    'h2',
+                    null,
+                    '404 Not Found!'
+                ),
+                _React2['default'].createElement(
+                    'div',
+                    null,
+                    _React2['default'].createElement(
+                        Link,
+                        { to: '/search', className: 'btn btn-info .btn-lg' },
+                        '孢子大搜索'
+                    ),
+                    _React2['default'].createElement(
+                        Link,
+                        { to: '/rank', className: 'btn btn-info .btn-lg' },
+                        '孢子风云榜'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MissingPage;
+})(_React2['default'].Component);
+
+exports['default'] = MissingPage;
+module.exports = exports['default'];
+
+},{"react":198,"react-router":29}],204:[function(require,module,exports){
 "use strict";
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
@@ -32629,7 +32750,7 @@ var Ribbon = (function (_React$Component) {
 exports["default"] = Ribbon;
 module.exports = exports["default"];
 
-},{"react":198}],203:[function(require,module,exports){
+},{"react":198}],205:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -32747,7 +32868,7 @@ var SporedApp = (function (_React$Component) {
 exports['default'] = SporedApp;
 module.exports = exports['default'];
 
-},{"./Ribbon":202,"react":198,"react-router":29}],204:[function(require,module,exports){
+},{"./Ribbon":204,"react":198,"react-router":29}],206:[function(require,module,exports){
 "use strict";
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
@@ -32784,7 +32905,7 @@ var Rank = (function (_React$Component) {
             var nodes = this.props.items.map(function (item) {
                 return _React2["default"].createElement(
                     "tr",
-                    { key: item.item.id },
+                    { key: item.target.id },
                     _React2["default"].createElement(
                         "td",
                         null,
@@ -32793,7 +32914,10 @@ var Rank = (function (_React$Component) {
                     _React2["default"].createElement(
                         "td",
                         null,
-                        item.item.name
+                        item.target.name,
+                        "(",
+                        item.value,
+                        ")"
                     )
                 );
             });
@@ -32833,7 +32957,7 @@ var Rank = (function (_React$Component) {
 exports["default"] = Rank;
 module.exports = exports["default"];
 
-},{"react":198}],205:[function(require,module,exports){
+},{"react":198}],207:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -32855,6 +32979,7 @@ var _React = require('react');
 var _React2 = _interopRequireWildcard(_React);
 
 var RankGroup = require('./RankGroup');
+var $ = require('jquery');
 
 var RankApp = (function (_React$Component) {
     function RankApp(props) {
@@ -32862,6 +32987,7 @@ var RankApp = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(RankApp.prototype), 'constructor', this).call(this, props);
         this.state = {
+            date: '',
             user_ranks: [],
             group_ranks: []
         };
@@ -32870,6 +32996,14 @@ var RankApp = (function (_React$Component) {
     _inherits(RankApp, _React$Component);
 
     _createClass(RankApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var $this = this;
+            $.getJSON('/rank/do', function (response) {
+                $this.setState(response);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _React2['default'].createElement(
@@ -32892,7 +33026,7 @@ var RankApp = (function (_React$Component) {
 exports['default'] = RankApp;
 module.exports = exports['default'];
 
-},{"./RankGroup":206,"react":198}],206:[function(require,module,exports){
+},{"./RankGroup":208,"jquery":2,"react":198}],208:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -32931,7 +33065,7 @@ var RankGroup = (function (_React$Component) {
             var nodes = this.props.items.map(function (item) {
                 return _React2['default'].createElement(
                     'div',
-                    { className: $this.props.className, key: item.key },
+                    { className: $this.props.className, key: item.id },
                     _React2['default'].createElement(Rank, { title: item.title, items: item.items })
                 );
             });
@@ -32950,7 +33084,7 @@ var RankGroup = (function (_React$Component) {
 exports['default'] = RankGroup;
 module.exports = exports['default'];
 
-},{"./Rank":204,"react":198}],207:[function(require,module,exports){
+},{"./Rank":206,"react":198}],209:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -33154,7 +33288,7 @@ var SearchApp = (function (_React$Component) {
 exports['default'] = SearchApp;
 module.exports = exports['default'];
 
-},{"../Alert":199,"../Loading":201,"./SearchLoadMore":208,"./SearchResultList":209,"./SearchTabControl":211,"jquery":2,"react":198}],208:[function(require,module,exports){
+},{"../Alert":199,"../Loading":202,"./SearchLoadMore":210,"./SearchResultList":211,"./SearchTabControl":213,"jquery":2,"react":198}],210:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -33202,7 +33336,7 @@ var SearchLoadMore = (function (_React$Component) {
 exports['default'] = SearchLoadMore;
 module.exports = exports['default'];
 
-},{"react":198}],209:[function(require,module,exports){
+},{"react":198}],211:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -33257,24 +33391,26 @@ var SearchResultList = (function (_React$Component) {
 exports['default'] = SearchResultList;
 module.exports = exports['default'];
 
-},{"./SearchResultListItem":210,"react":198}],210:[function(require,module,exports){
-"use strict";
+},{"./SearchResultListItem":212,"react":198}],212:[function(require,module,exports){
+'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
-var _React = require("react");
+var _React = require('react');
 
 var _React2 = _interopRequireWildcard(_React);
+
+var Avatar = require('../Avatar');
 
 //<SearchResultListItem item=[] />
 
@@ -33290,7 +33426,7 @@ var SearchResultListItem = (function (_React$Component) {
     _inherits(SearchResultListItem, _React$Component);
 
     _createClass(SearchResultListItem, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             var item = this.props.item;
             if (item.title) {
@@ -33300,51 +33436,47 @@ var SearchResultListItem = (function (_React$Component) {
             } else {
                 item.type = 1;
             }
-            var avatarPrefix = "http://#region.as.baoz.cn/f/#file";
-            if (item.icon) {
-                item.icon.url = avatarPrefix.replace("#region", item.icon.crop.substr(0, 1)).replace("#file", item.icon.crop) + ".t30x30.png";
-            }
             switch (item.type) {
                 case 1:
-                    return _React2["default"].createElement(
-                        "a",
-                        { href: "javascript:void(0);", className: "list-group-item" },
-                        _React2["default"].createElement("img", { width: "30", height: "30", src: item.icon.url, alt: item.name, className: "img-circle" }),
-                        _React2["default"].createElement(
-                            "span",
+                    return _React2['default'].createElement(
+                        'a',
+                        { href: 'javascript:void(0);', className: 'list-group-item' },
+                        _React2['default'].createElement(Avatar, { width: '30', height: '30', icon: item.icon, alt: item.name }),
+                        _React2['default'].createElement(
+                            'span',
                             null,
-                            "用户"
+                            '用户'
                         ),
-                        ": ",
+                        ': ',
                         item.name
                     );
                     break;
                 case 2:
-                    var link = "http://baoz.cn/" + item.id;
-                    return _React2["default"].createElement(
-                        "a",
-                        { href: link, target: "_blank", className: "list-group-item" },
-                        _React2["default"].createElement("img", { width: "30", height: "30", src: item.icon.url, alt: item.name, className: "img-circle" }),
-                        _React2["default"].createElement(
-                            "span",
+                    var link = 'http://baoz.cn/' + item.id;
+                    return _React2['default'].createElement(
+                        'a',
+                        { href: link, target: '_blank', className: 'list-group-item' },
+                        _React2['default'].createElement(Avatar, { width: '30', height: '30', icon: item.icon, alt: item.name }),
+                        _React2['default'].createElement(
+                            'span',
                             null,
-                            "群组"
+                            '群组'
                         ),
-                        ": ",
+                        ': ',
                         item.name
                     );
                     break;
                 case 3:
-                    var link = "http://baoz.cn/" + item.id;
-                    return _React2["default"].createElement(
-                        "a",
-                        { href: link, target: "_blank", className: "list-group-item" },
-                        _React2["default"].createElement(
-                            "span",
+                    var link = 'http://baoz.cn/' + item.id;
+                    return _React2['default'].createElement(
+                        'a',
+                        { href: link, target: '_blank', className: 'list-group-item' },
+                        _React2['default'].createElement(
+                            'span',
                             null,
-                            "帖子"
+                            '帖子'
                         ),
-                        ": ",
+                        ': ',
                         item.title
                     );
             }
@@ -33352,12 +33484,12 @@ var SearchResultListItem = (function (_React$Component) {
     }]);
 
     return SearchResultListItem;
-})(_React2["default"].Component);
+})(_React2['default'].Component);
 
-exports["default"] = SearchResultListItem;
-module.exports = exports["default"];
+exports['default'] = SearchResultListItem;
+module.exports = exports['default'];
 
-},{"react":198}],211:[function(require,module,exports){
+},{"../Avatar":200,"react":198}],213:[function(require,module,exports){
 "use strict";
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };

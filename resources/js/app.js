@@ -8,6 +8,7 @@ var SporedApp = require('./react/SporedApp');
 var SearchApp = require('./react/search/SearchApp');
 var Landing = require('./react/Landing');
 var RankApp = require('./react/rank/RankApp');
+var MissingPage = require('./react/MissingPage');
 
 
 var routes = (
@@ -15,7 +16,7 @@ var routes = (
     <DefaultRoute handler={Landing} />
     <Route name="search" handler={SearchApp} path="/search" />
     <Route name="rank" handler={RankApp} path="/rank" />
-    <NotFoundRoute handler={SearchApp} />
+    <NotFoundRoute handler={MissingPage} />
   </Route>
 );
 

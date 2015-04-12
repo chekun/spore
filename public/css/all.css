@@ -7079,6 +7079,7 @@ button.close {
   background-repeat: no-repeat;
   background-position-x: 50%;
   height: 57px;
+  background-color: #ffffff;
 }
 
 .navbar-spored .navbar-nav > li > a {
@@ -7088,7 +7089,7 @@ button.close {
 .logo {background: url('../assets/logo.png'); width: 72px; height: 53px; border: 0px;}
 
 .ribbon {
-    position:absolute;
+    position:fixed;
     top:0;
     right:0;
     border:0;

@@ -11,7 +11,7 @@ class RankGroup extends React.Component {
       var $this = this;
       var nodes = this.props.items.map(function(item) {
           return (
-              <div className={$this.props.className} key={item.key}>
+              <div className={$this.props.className} key={item.id}>
                   <Rank title={item.title} items={item.items} />
               </div>
           );

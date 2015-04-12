@@ -10,9 +10,9 @@ class Rank extends React.Component {
 
       var nodes = this.props.items.map(function(item) {
           return (
-              <tr key={item.item.id}>
+              <tr key={item.target.id}>
                   <td>{item.rank}</td>
-                  <td>{item.item.name}</td>
+                  <td>{item.target.name}({item.value})</td>
               </tr>
           );
       });
