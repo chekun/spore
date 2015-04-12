@@ -10,11 +10,13 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/astaxie/goredis"
 	"github.com/chekun/spore/spored/env"
 	"github.com/chekun/spore/spored/schema"
 	"github.com/mitchellh/cli"
+	"github.com/polaris1119/times"
 	"github.com/slvmnd/gosphinx"
 )
 
@@ -72,8 +74,9 @@ func (c *ServeCommand) Run(args []string) int {
 
 	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", fs))
-	http.HandleFunc("/", HomeEntry)
-	http.HandleFunc("/search/do", DoSearchHandler)
+	http.HandleFunc("/", homeEntry)
+	http.HandleFunc("/search/do", doSearchHandler)
+	http.HandleFunc("/rank/do", doRankHandler)
 	err = http.ListenAndServe(environment.HTTP, nil)
 	if err != nil {
 		fmt.Println("Server Failed to Start, ", err.Error())
@@ -82,15 +85,131 @@ func (c *ServeCommand) Run(args []string) int {
 	return 0
 }
 
-// HomeEntry Handler
-func HomeEntry(w http.ResponseWriter, r *http.Request) {
+func homeEntry(w http.ResponseWriter, r *http.Request) {
 	t := template.New("react.html")
 	t, _ = t.ParseFiles("../resources/views/react.html")
 	t.Execute(w, nil)
 }
 
-// DoSearchHandler Do Search Handler
-func DoSearchHandler(w http.ResponseWriter, r *http.Request) {
+func doRankHandler(w http.ResponseWriter, r *http.Request) {
+
+	type Rank struct {
+		Rank   int         `json:"rank"`
+		Target interface{} `json:"target"`
+		Value  int         `json:"value"`
+	}
+
+	type RankItem struct {
+		ID    schema.Stat `json:"id"`
+		Title string      `json:"title"`
+		Items []Rank      `json:"items"`
+	}
+
+	type RankResult struct {
+		Date       string     `json:"date"`
+		UserRanks  []RankItem `json:"user_ranks"`
+		GroupRanks []RankItem `json:"group_ranks"`
+	}
+
+	statDate := times.Format("Y-m-d", time.Now().Add(time.Hour*-24))
+
+	rankResult := RankResult{}
+	rankResult.Date = statDate
+
+	environment, _ := env.GetEnvironment()
+	redis := goredis.Client{}
+	redis.Addr = environment.RedisServer + ":" + strconv.Itoa(environment.RedisPort)
+	redisKey := "spored:ranks"
+	redisValue, _ := redis.Get(redisKey)
+	if redisValue == nil || string(redisValue) == "" {
+
+		//select target date related user stats
+		userWhereDict := map[schema.Stat]string{
+			schema.StatThreads:     "1970-01-02",
+			schema.StatPosts:       "1970-01-04",
+			schema.StatLives:       "1970-01-06",
+			schema.StatAttachments: "1970-01-08",
+		}
+
+		sql := "SELECT owner_id, stat_value FROM stats WHERE date = ? AND stat_type = ? AND owner_type = ? ORDER BY stat_value DESC LIMIT ?"
+		stmt, _ := mysql.Prepare(sql)
+		defer stmt.Close()
+
+		for statType, date := range userWhereDict {
+			rankSeq := 0
+			userRank := RankItem{}
+			userRank.ID = statType
+			switch statType {
+			case 2:
+				userRank.Title = "用户帖子数排行"
+			case 4:
+				userRank.Title = "用户回复数排行"
+			case 6:
+				userRank.Title = "用户活跃版数排行"
+			case 8:
+				userRank.Title = "用户附件数排行"
+			}
+			rows, _ := stmt.Query(date, statType, schema.OwnerUser, 50)
+			for rows.Next() {
+				rankSeq++
+				var ownerID, statValue int
+				rank := Rank{}
+				rows.Scan(&ownerID, &statValue)
+				rank.Rank = rankSeq
+				rank.Value = statValue
+				user := schema.User{}
+				user.New(mysql, ownerID)
+				rank.Target = user
+				userRank.Items = append(userRank.Items, rank)
+			}
+			rankResult.UserRanks = append(rankResult.UserRanks, userRank)
+		}
+
+		//select target date related group stats
+		groupWhereDict := map[schema.Stat]string{
+			schema.StatThreads: "1970-01-02",
+			schema.StatPosts:   "1970-01-04",
+			schema.StatLives:   "1970-01-06",
+		}
+
+		for statType, date := range groupWhereDict {
+			rankSeq := 0
+			groupRank := RankItem{}
+			groupRank.ID = statType
+			switch statType {
+			case 2:
+				groupRank.Title = "群组帖子数排行"
+			case 4:
+				groupRank.Title = "群组回复数排行"
+			case 6:
+				groupRank.Title = "群组活跃用户版数排行"
+			}
+			rows, _ := stmt.Query(date, statType, schema.OwnerGroup, 20)
+			for rows.Next() {
+				rankSeq++
+				var ownerID, statValue int
+				rank := Rank{}
+				rows.Scan(&ownerID, &statValue)
+				rank.Rank = rankSeq
+				rank.Value = statValue
+				group := schema.Group{}
+				group.New(mysql, ownerID)
+				rank.Target = group
+				groupRank.Items = append(groupRank.Items, rank)
+			}
+			rankResult.GroupRanks = append(rankResult.GroupRanks, groupRank)
+		}
+		resultJSON, _ := json.Marshal(rankResult)
+		fmt.Fprintf(w, string(resultJSON))
+		redis.Set(redisKey, resultJSON)
+		redis.Expire(redisKey, times.StrToLocalTime(times.Format("Y-m-d", time.Now().Add(24*time.Hour))+" 01:00:00").Unix()-time.Now().Unix())
+		return
+	}
+
+	fmt.Fprintf(w, string(redisValue))
+}
+
+func doSearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	type SearchResult struct {
 		Total   int             `json:"total"`

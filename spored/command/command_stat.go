@@ -160,20 +160,20 @@ func statGroups(date string) {
 		stmt.QueryRow(groupID, dateStart, dateEnd, groupID, dateStart, dateEnd).Scan(&groupsCount)
 		//@todo group attachments
 
-		saveStat(date, groupID, schema.OwnerThread, schema.StatThreadsPerday, threadsCount)
-		saveStat(date, groupID, schema.OwnerThread, schema.StatPostsPerday, postsCount)
-		saveStat(date, groupID, schema.OwnerThread, schema.StatLivesPerday, groupsCount)
+		saveStat(date, groupID, schema.OwnerGroup, schema.StatThreadsPerday, threadsCount)
+		saveStat(date, groupID, schema.OwnerGroup, schema.StatPostsPerday, postsCount)
+		saveStat(date, groupID, schema.OwnerGroup, schema.StatLivesPerday, groupsCount)
 
 		//Update Total
 		sql = "SELECT stat_type, SUM(stat_value) AS stat_value FROM stats WHERE owner_type=? AND owner_id=?  AND stat_type IN (?, ?, ?) GROUP BY stat_type"
 		stmt, _ = mysql.Prepare(sql)
-		totalRows, _ := stmt.Query(schema.OwnerThread, groupID, schema.StatThreadsPerday, schema.StatPostsPerday, schema.StatLivesPerday)
+		totalRows, _ := stmt.Query(schema.OwnerGroup, groupID, schema.StatThreadsPerday, schema.StatPostsPerday, schema.StatLivesPerday)
 		defer totalRows.Close()
 
 		for totalRows.Next() {
 			var statType, statValue int
 			totalRows.Scan(&statType, &statValue)
-			saveStat(fmt.Sprintf("1970-01-0%d", schema.Stat(statType)+1), groupID, schema.OwnerThread, schema.Stat(statType)+1, statValue)
+			saveStat(fmt.Sprintf("1970-01-0%d", schema.Stat(statType)+1), groupID, schema.OwnerGroup, schema.Stat(statType)+1, statValue)
 		}
 	}
 }

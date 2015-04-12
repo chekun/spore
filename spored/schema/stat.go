@@ -25,6 +25,6 @@ const (
 const (
 	//OwnerUser Owner User Type
 	OwnerUser Stat = iota + 1
-	//OwnerThread Owner Thread Type
-	OwnerThread
+	//OwnerGroup Owner Group Type
+	OwnerGroup
 )
