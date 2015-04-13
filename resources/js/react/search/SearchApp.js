@@ -35,6 +35,7 @@ class SearchApp extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.state.keyword != "") {
+
             var $this = this;
             $.getJSON('/search/do?q='+this.state.keyword, function(response) {
                 if (response.error) {
@@ -42,6 +43,7 @@ class SearchApp extends React.Component {
                     return;
                 }
                 var newState = {}
+                newState.currentTab = 0;
                 newState.items = response.results;
                 newState.badges = {
                     total: response.total,

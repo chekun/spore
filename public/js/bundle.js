@@ -33145,6 +33145,7 @@ var SearchApp = (function (_React$Component) {
         value: function handleSubmit(e) {
             e.preventDefault();
             if (this.state.keyword != '') {
+
                 var $this = this;
                 $.getJSON('/search/do?q=' + this.state.keyword, function (response) {
                     if (response.error) {
@@ -33152,6 +33153,7 @@ var SearchApp = (function (_React$Component) {
                         return;
                     }
                     var newState = {};
+                    newState.currentTab = 0;
                     newState.items = response.results;
                     newState.badges = {
                         total: response.total,
