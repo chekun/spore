@@ -2,6 +2,10 @@
 
 A ```toy``` based on [baoz.cn](http://baoz.cn)
 
+Online Website:
+
+[Click here to explore!](http://baoz.chekun.me)
+
 ![screenshot](https://cloud.githubusercontent.com/assets/1967804/7112544/3e2953b6-e1fd-11e4-9e11-a4928ee333f3.png)
 
 
@@ -80,7 +84,7 @@ Goals:
   Once data has fetched. You can run stats command
 
   ```
-  ./spored stat -env=development -config=../config.yml
+  ./spored total -env=development -config=../config.yml
   ```
 
 - Web App
