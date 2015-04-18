@@ -23,7 +23,7 @@ func (c *StatCommand) Help() string {
 	helpText := `
 Usage: spored serve [options] ...
 
-  Spored Server.
+  Spored Stat.
 
 Options:
 
