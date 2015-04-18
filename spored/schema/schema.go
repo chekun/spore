@@ -3,6 +3,7 @@ package schema
 import (
 	"database/sql"
 	"encoding/json"
+	"strings"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/polaris1119/times"
@@ -233,6 +234,7 @@ func (message *Message) SaveAttachments(db *sql.DB) {
 
 // Save save message(thread, post) to database
 func (message *Message) Save(db *sql.DB) {
+	createdAt := strings.Replace(strings.Replace(message.CreatedAt, "T", " ", 1), "Z", "", 1)
 	if message.ThreadID != nil {
 		//this is a post message
 		stmt, _ := db.Prepare("REPLACE INTO posts(id, thread_id, content, user_id, group_id, created_at) VALUES(?, ?, ?, ?, ?, ?)")
@@ -240,11 +242,11 @@ func (message *Message) Save(db *sql.DB) {
 		//Warning!
 		//Some posts have no Group Object, eg. 10255 and 11903
 		//I will fix the data before stats
-		stmt.Exec(message.ID, message.ThreadID, message.Content, message.Author.ID, message.Group.ID, message.CreatedAt)
+		stmt.Exec(message.ID, message.ThreadID, message.Content, message.Author.ID, message.Group.ID, createdAt)
 	} else {
 		stmt, _ := db.Prepare("REPLACE INTO threads(id, title, content, user_id, group_id, created_at) VALUES(?, ?, ?, ?, ?, ?)")
 		defer stmt.Close()
-		stmt.Exec(message.ID, message.Title, message.Content, message.Author.ID, message.Group.ID, message.CreatedAt)
+		stmt.Exec(message.ID, message.Title, message.Content, message.Author.ID, message.Group.ID, createdAt)
 	}
 	//save User
 	message.Author.User.Save(db)
