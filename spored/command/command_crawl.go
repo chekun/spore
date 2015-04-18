@@ -132,8 +132,10 @@ func (c *CrawlCommand) Run(args []string) int {
 				statment.Close()
 				l4g.Info("[mysql.getMax] Get MaxId %d", maxID)
 				l4g.Info("[crawl.scheduler] Resumed from %d", maxID)
+				isRunning = true
 				go next(int(maxID))
-			} else {
+			}
+			if status == 0 && isRunning {
 				l4g.Info("[crawl.scheduler] Paused")
 				isRunning = false
 			}
@@ -194,31 +196,24 @@ func crawler(id int) {
 		l4g.Error("[crawler.request] %d %s", id, response.Status)
 		//when to determin pause signal
 		continuousFailedIds = append(continuousFailedIds, id)
-		if len(continuousFailedIds) > 20 {
-			isResumeDetected := true
-			matchFailedId := 0
-			for _, failedId := range continuousFailedIds {
-				if matchFailedId == 0 {
-					matchFailedId = failedId
-					continue
-				}
-				if failedId-matchFailedId != 1 {
-					isResumeDetected = false
-					break
-				}
-				matchFailedId = failedId
-			}
-			continuousFailedIds = nil
-			l4g.Info("[crawler.scheduler] flush continuousFailedIds")
-			if isResumeDetected {
+		length := len(continuousFailedIds)
+		if length > 50 {
+			if length == (continuousFailedIds[length-1] - continuousFailedIds[0] + 1) {
 				l4g.Info("[crawler.scheduler] Pause Signal Detected")
 				//let's pause it
 				resumeChan <- 0
 			}
+			continuousFailedIds = nil
+			l4g.Info("[crawler.scheduler] flushed continuousFailedIds")
 		} else {
 			go next(id)
 		}
 		return
+	} else {
+		if len(continuousFailedIds) > 0 {
+			l4g.Info("[crawler.scheduler] soft flushed continuousFailedIds")
+			continuousFailedIds = nil
+		}
 	}
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
@@ -259,5 +254,9 @@ func crawler(id int) {
 			return
 		}
 		groupChan <- &group
+	default:
+		//pass the object we don't know yet!
+		l4g.Error("[unknown.base.origin] %s", define.Base.Origin)
+		go next(id)
 	}
 }
