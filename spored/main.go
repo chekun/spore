@@ -29,6 +29,9 @@ func main() {
 			"stat": func() (cli.Command, error) {
 				return &command.StatCommand{ui}, nil
 			},
+			"total": func() (cli.Command, error) {
+				return &command.TotalCommand{ui}, nil
+			},
 		},
 	}
 
